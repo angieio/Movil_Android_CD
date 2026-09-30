@@ -11,6 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.tecsup.tecsup_store.componentes.TarjetaProducto
+import com.tecsup.tecsup_store.screens.InicioScreen
+import com.tecsup.tecsup_store.screens.PedidosScreen
+import com.tecsup.tecsup_store.screens.FavoritosScreen
+import com.tecsup.tecsup_store.screens.PerfilScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,7 +78,7 @@ fun AppNavigation() {
                             }
                         ) {
                             Icon(
-                                Icons.Default.Menu,
+                                imageVector = Icons.Default.Menu,
                                 contentDescription = "Menú",
                                 tint = Color.White
                             )
@@ -96,25 +100,52 @@ fun AppNavigation() {
                     .padding(16.dp)
             ) {
 
-                item {
-                    TarjetaProducto(
-                        nombreProducto = "Audifonos",
-                        precio = "S/ 89.00"
-                    )
-                }
+                when (opcionActual) {
 
-                item {
-                    TarjetaProducto(
-                        nombreProducto = "Smartwatch",
-                        precio = "S/ 199.00"
-                    )
-                }
+                    "Inicio" -> {
+                        item {
+                            InicioScreen()
+                        }
+                    }
 
-                item {
-                    TarjetaProducto(
-                        nombreProducto = "Funda celular",
-                        precio = "S/ 25.00"
-                    )
+                    "Mis pedidos" -> {
+                        item {
+                            PedidosScreen()
+                        }
+
+                        item {
+                            TarjetaProducto(
+                                nombreProducto = "Audifonos",
+                                precio = "S/ 89.00"
+                            )
+                        }
+
+                        item {
+                            TarjetaProducto(
+                                nombreProducto = "Smartwatch",
+                                precio = "S/ 199.00"
+                            )
+                        }
+
+                        item {
+                            TarjetaProducto(
+                                nombreProducto = "Funda celular",
+                                precio = "S/ 25.00"
+                            )
+                        }
+                    }
+
+                    "Favoritos" -> {
+                        item {
+                            FavoritosScreen()
+                        }
+                    }
+
+                    "Perfil" -> {
+                        item {
+                            PerfilScreen()
+                        }
+                    }
                 }
             }
         }

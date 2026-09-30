@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.tecsup.tecsup_store.componentes.TarjetaProducto
 import com.tecsup.tecsup_store.ui.theme.Tecsup_StoreTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +20,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Tecsup_StoreTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                setContent {
+                    Tecsup_StoreTheme {
+                        TarjetaProducto(
+                            nombreProducto = "Laptop Lenovo",
+                            precio = "S/ 2500"
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Tecsup_StoreTheme {
-        Greeting("Android")
     }
 }

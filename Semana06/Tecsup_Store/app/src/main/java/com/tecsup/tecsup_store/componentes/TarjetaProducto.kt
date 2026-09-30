@@ -43,6 +43,34 @@ fun TarjetaProducto(
                     contentDescription = "Opciones"
                 )
             }
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = {
+                    expanded = false
+                }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Favoritos") },
+                    onClick = {
+                        expanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text("Compartir") },
+                    onClick = {
+                        expanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text("Reportar") },
+                    onClick = {
+                        expanded = false
+                    }
+                )
+            }
         }
     }
 }

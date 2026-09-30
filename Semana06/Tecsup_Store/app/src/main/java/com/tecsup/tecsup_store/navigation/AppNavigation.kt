@@ -1,12 +1,14 @@
 package com.tecsup.tecsup_store.navigation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.tecsup.tecsup_store.componentes.TarjetaProducto
 import kotlinx.coroutines.launch
@@ -25,6 +27,8 @@ fun AppNavigation() {
         mutableStateOf("Inicio")
     }
 
+    val colorPurpura = Color(0xFF4A148C)
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -42,11 +46,25 @@ fun AppNavigation() {
     ) {
 
         Scaffold(
+            containerColor = Color.White,
+
             topBar = {
                 TopAppBar(
                     title = {
-                        Text("TECSUP Store")
+                        Column {
+                            Text(
+                                text = "TECSUP Store",
+                                color = Color.White
+                            )
+
+                            Text(
+                                text = "Mas vendidos",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.LightGray
+                            )
+                        }
                     },
+
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -57,39 +75,47 @@ fun AppNavigation() {
                         ) {
                             Icon(
                                 Icons.Default.Menu,
-                                contentDescription = "Menú principal"
+                                contentDescription = "Menú",
+                                tint = Color.White
                             )
                         }
-                    }
+                    },
+
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = colorPurpura
+                    )
                 )
             }
         ) { paddingValues ->
 
-            Column(
+            LazyColumn(
                 modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
                     .padding(paddingValues)
-                    .padding(8.dp)
+                    .padding(16.dp)
             ) {
 
-                Text(
-                    text = "Más vendidos",
-                    style = MaterialTheme.typography.titleLarge
-                )
+                item {
+                    TarjetaProducto(
+                        nombreProducto = "Audifonos",
+                        precio = "S/ 89.00"
+                    )
+                }
 
-                TarjetaProducto(
-                    nombreProducto = "Audífonos",
-                    precio = "S/ 89.00"
-                )
+                item {
+                    TarjetaProducto(
+                        nombreProducto = "Smartwatch",
+                        precio = "S/ 199.00"
+                    )
+                }
 
-                TarjetaProducto(
-                    nombreProducto = "Smartwatch",
-                    precio = "S/ 199.00"
-                )
-
-                TarjetaProducto(
-                    nombreProducto = "Funda celular",
-                    precio = "S/ 25.00"
-                )
+                item {
+                    TarjetaProducto(
+                        nombreProducto = "Funda celular",
+                        precio = "S/ 25.00"
+                    )
+                }
             }
         }
     }

@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.tecsup.tecsup_store.componentes.TarjetaProducto
+import com.tecsup.tecsup_store.navigation.AppNavigation
+import com.tecsup.tecsup_store.navigation.AppNavigation
 import com.tecsup.tecsup_store.ui.theme.Tecsup_StoreTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,10 +24,7 @@ class MainActivity : ComponentActivity() {
             Tecsup_StoreTheme {
                 setContent {
                     Tecsup_StoreTheme {
-                        TarjetaProducto(
-                            nombreProducto = "Laptop Lenovo",
-                            precio = "S/ 2500"
-                        )
+                        AppNavigation()
                     }
                 }
             }

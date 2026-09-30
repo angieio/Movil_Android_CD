@@ -25,10 +25,10 @@ fun AppDrawer(
         drawerContainerColor = Color.White
     ) {
 
+        // Encabezado del usuario
         Column(
             modifier = Modifier.padding(24.dp)
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {

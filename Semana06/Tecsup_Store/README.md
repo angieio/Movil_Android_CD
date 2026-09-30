@@ -18,3 +18,11 @@ Tuve que colocar el contador de favoritos en un estado compartido desde AppNavig
 
 ### 4. ¿Qué tuviste que corregir del código que te generó la IA para la mejora del badge de favoritos?
 Tuve que corregir la forma en que se comunicaba el TarjetaProducto con el NavigationDrawer, porque el contador debía actualizarse realmente al seleccionar Favoritos. También tuve que mantener la estructura que ya tenía mi proyecto para no eliminar las tarjetas ni afectar la navegación.
+
+## Imágenes de la evidencia
+
+<p>
+  <img width="278" height="573" alt="Evidencia 1" src="https://github.com/user-attachments/assets/68bc655c-55c6-46c8-8955-f408395cc17c" />
+  &nbsp;&nbsp;&nbsp;
+  <img width="278" height="573" alt="Evidencia 2" src="https://github.com/user-attachments/assets/85d41c14-b56d-48ea-b7a2-472a166548af" />
+</p>

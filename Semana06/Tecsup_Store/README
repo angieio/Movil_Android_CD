@@ -1,0 +1,20 @@
+# LAB 06: TECSUP Store
+
+**Estudiante:** Angieluz Vasquez  
+**Curso:** Desarrollo de Aplicaciones Móviles  
+**Institución:** TECSUP  
+
+
+## Cuestionario del Laboratorio
+
+### 1. ¿Por qué el DropdownMenu se declara dentro de un Box junto al ícono que lo activa, y no en cualquier parte de la pantalla?
+Porque el DropdownMenu debe estar relacionado con el ícono de tres puntos que lo abre. Al colocarlo junto al ícono dentro del Box, aparece en la posición correcta de cada producto y no en cualquier lugar de la pantalla.
+
+### 2. ¿Qué diferencia de alcance hay entre las opciones del DropdownMenu y las del NavigationDrawer?
+Las opciones del DropdownMenu afectan solamente al producto donde se abrió, por ejemplo, marcar ese producto como favorito. En cambio, el NavigationDrawer sirve para cambiar entre las diferentes partes de toda la aplicación, como Inicio, Mis pedidos, Favoritos y Perfil.
+
+### 3. ¿Cómo tuviste que estructurar tu código para que el contador de favoritos del drawer "se entere" de lo que pasa en el DropdownMenu de cada producto?
+Tuve que colocar el contador de favoritos en un estado compartido desde AppNavigation y pasar una función al TarjetaProducto. Así, cuando se selecciona Favoritos en el DropdownMenu, se aumenta el contador y ese valor se muestra en el Badge del NavigationDrawer.
+
+### 4. ¿Qué tuviste que corregir del código que te generó la IA para la mejora del badge de favoritos?
+Tuve que corregir la forma en que se comunicaba el TarjetaProducto con el NavigationDrawer, porque el contador debía actualizarse realmente al seleccionar Favoritos. También tuve que mantener la estructura que ya tenía mi proyecto para no eliminar las tarjetas ni afectar la navegación.

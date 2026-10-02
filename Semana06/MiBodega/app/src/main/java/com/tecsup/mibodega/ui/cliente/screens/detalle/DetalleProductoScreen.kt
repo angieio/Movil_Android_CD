@@ -12,12 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +36,9 @@ import com.tecsup.mibodega.ui.componentes.SelectorCantidad
 import com.tecsup.mibodega.ui.theme.BodegaTheme
 import com.tecsup.mibodega.ui.theme.GrisClaro
 import com.tecsup.mibodega.ui.theme.RojoPrecio
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import com.tecsup.mibodega.ui.theme.VerdeBodega
 
 /**
@@ -62,7 +62,7 @@ fun DetalleProductoScreen(
     ) {
         EncabezadoDetalle(onVolver = onVolver)
 
-        ImagenProducto()
+        ImagenProducto(imagen = producto.imagen)
 
         Column(
             modifier = Modifier
@@ -74,6 +74,14 @@ fun DetalleProductoScreen(
             Text(
                 text = producto.nombre,
                 style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Text(
+                text = producto.categoria,
+                style = MaterialTheme.typography.bodyMedium,
+                color = VerdeBodega
             )
 
             Spacer(Modifier.height(4.dp))
@@ -131,9 +139,7 @@ private fun EncabezadoDetalle(onVolver: () -> Unit) {
 }
 
 @Composable
-private fun ImagenProducto() {
-    // Placeholder de imagen: reemplázalo por Image(painterResource(...))
-    // cuando tengan la foto real de cada producto.
+private fun ImagenProducto(imagen: Int) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -141,11 +147,11 @@ private fun ImagenProducto() {
             .background(GrisClaro),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Default.ShoppingBasket,
-            contentDescription = null,
-            tint = VerdeBodega,
-            modifier = Modifier.size(80.dp)
+        Image(
+            painter = painterResource(id = imagen),
+            contentDescription = "Imagen del producto",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

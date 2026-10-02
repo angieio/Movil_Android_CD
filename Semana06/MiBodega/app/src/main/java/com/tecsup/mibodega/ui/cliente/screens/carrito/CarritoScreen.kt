@@ -40,6 +40,9 @@ import com.tecsup.mibodega.ui.componentes.SelectorCantidad
 import com.tecsup.mibodega.ui.theme.BodegaTheme
 import com.tecsup.mibodega.ui.theme.GrisClaro
 import com.tecsup.mibodega.ui.theme.VerdeBodega
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 
 private const val COSTO_DELIVERY = 4.00
 
@@ -125,18 +128,17 @@ private fun FilaCarrito(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Placeholder de imagen: reemplázalo por Image(painterResource(...))
         Box(
             modifier = Modifier
                 .size(56.dp)
                 .background(GrisClaro, RoundedCornerShape(10.dp)),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = Icons.Default.ShoppingBasket,
+            Image(
+                painter = painterResource(id = item.producto.imagen),
                 contentDescription = item.producto.nombre,
-                tint = VerdeBodega,
-                modifier = Modifier.size(26.dp)
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(56.dp)
             )
         }
 

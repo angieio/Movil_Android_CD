@@ -43,6 +43,76 @@ val listaProductosFake = listOf(
         descripcion = "Bebida gaseosa sabor cola. Ideal para compartir en familia.",
         precio = 6.50,
         categoria = "Bebidas"
+    ),
+    Producto(
+        id = 6,
+        nombre = "Inca Kola",
+        descripcion = "Bebida gaseosa sabor original de 1.5 L.",
+        precio = 6.00,
+        categoria = "Bebidas"
+    ),
+    Producto(
+        id = 7,
+        nombre = "Agua San Luis",
+        descripcion = "Agua mineral sin gas de 625 ml.",
+        precio = 2.50,
+        categoria = "Bebidas"
+    ),
+    Producto(
+        id = 8,
+        nombre = "Papas Lays",
+        descripcion = "Papas fritas clásicas de 150 g.",
+        precio = 7.50,
+        categoria = "Snacks"
+    ),
+    Producto(
+        id = 9,
+        nombre = "Chocolate Sublime",
+        descripcion = "Chocolate con leche y maní de 30 g.",
+        precio = 2.50,
+        categoria = "Snacks"
+    ),
+    Producto(
+        id = 10,
+        nombre = "Fideos Don Vittorio",
+        descripcion = "Fideos tallarín de 500 g.",
+        precio = 4.20,
+        categoria = "Abarrotes"
+    ),
+    Producto(
+        id = 11,
+        nombre = "Azúcar Rubia",
+        descripcion = "Azúcar rubia de 1 kg.",
+        precio = 4.80,
+        categoria = "Abarrotes"
+    ),
+    Producto(
+        id = 12,
+        nombre = "Atún Florida",
+        descripcion = "Atún en agua de 170 g.",
+        precio = 6.90,
+        categoria = "Abarrotes"
+    ),
+    Producto(
+        id = 13,
+        nombre = "Galletas Casino",
+        descripcion = "Galletas rellenas sabor chocolate de 6 unidades.",
+        precio = 3.00,
+        categoria = "Snacks"
+    ),
+    Producto(
+        id = 14,
+        nombre = "Yogurt Gloria",
+        descripcion = "Yogurt de fresa de 1 litro.",
+        precio = 8.50,
+        categoria = "Bebidas"
+    ),
+    Producto(
+        id = 15,
+        nombre = "Leche Chocolatada",
+        descripcion = "Bebida láctea sabor chocolate de 200 ml.",
+        precio = 2.80,
+        categoria = "Bebidas"
     )
 )
 

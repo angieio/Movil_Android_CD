@@ -6,7 +6,7 @@ package com.tecsup.mibodega.ui.cliente.modelo
  * un Repository real, pero las pantallas no cambian porque ya
  * reciben una List<Producto> como parámetro.
  */
-val listaCategorias = listOf("Todos", "Bebidas", "Abarrotes", "Snacks")
+val listaCategorias = listOf("Todos", "Bebidas", "Abarrotes", "Snacks", "Limpieza")
 
 val listaProductosFake = listOf(
     Producto(
@@ -113,6 +113,20 @@ val listaProductosFake = listOf(
         descripcion = "Bebida láctea sabor chocolate de 200 ml.",
         precio = 2.80,
         categoria = "Bebidas"
+    ),
+    Producto(
+        id = 16,
+        nombre = "Detergente Bolívar",
+        descripcion = "Detergente en polvo para lavar ropa.",
+        precio = 8.50,
+        categoria = "Limpieza"
+    ),
+    Producto(
+        id = 17,
+        nombre = "Lejía Clorox",
+        descripcion = "Lejía para limpieza y desinfección del hogar.",
+        precio = 5.50,
+        categoria = "Limpieza"
     )
 )
 

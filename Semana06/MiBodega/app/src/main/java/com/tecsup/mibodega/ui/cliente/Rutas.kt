@@ -6,6 +6,8 @@ object Rutas {
     const val DETALLE = "detalle/{productoId}"
     const val CARRITO = "carrito"
     const val LOGIN = "login"
+    const val DATOS_ENTREGA = "datos_entrega"
+    const val CONFIRMACION = "confirmacion"
 
     fun detalle(productoId: Int) = "detalle/$productoId"
 }

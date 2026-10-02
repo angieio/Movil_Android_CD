@@ -1,5 +1,6 @@
 package com.tecsup.mibodega.ui.cliente
 
+import com.tecsup.mibodega.ui.cliente.screens.login.LoginScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +34,9 @@ fun AppNavegacion() {
         composable(Rutas.BIENVENIDA) {
             BienvenidaScreen(
                 onRegistrarse = { navController.navigate(Rutas.REGISTRO) },
-                onIniciarSesion = { /* TODO: pantalla de login, aún no está en el mockup */ },
+                onIniciarSesion = {
+                    navController.navigate(Rutas.LOGIN)
+                },
                 onTerminos = { /* TODO: abrir términos y condiciones */ }
             )
         }
@@ -45,6 +48,21 @@ fun AppNavegacion() {
                     // TODO: guardar estos datos cuando exista el registro real
                     navController.navigate(Rutas.INICIO) {
                         popUpTo(Rutas.BIENVENIDA) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Rutas.LOGIN) {
+            LoginScreen(
+                onVolver = {
+                    navController.popBackStack()
+                },
+                onIniciarSesion = {
+                    navController.navigate(Rutas.INICIO) {
+                        popUpTo(Rutas.BIENVENIDA) {
+                            inclusive = true
+                        }
                     }
                 }
             )

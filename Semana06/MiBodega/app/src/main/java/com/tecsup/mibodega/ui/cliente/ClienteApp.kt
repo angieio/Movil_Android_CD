@@ -2,6 +2,7 @@ package com.tecsup.mibodega.ui.cliente
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -15,17 +16,16 @@ import com.tecsup.mibodega.ui.cliente.modelo.Producto
 import com.tecsup.mibodega.ui.cliente.modelo.listaProductosFake
 import com.tecsup.mibodega.ui.cliente.screens.bienvenida.BienvenidaScreen
 import com.tecsup.mibodega.ui.cliente.screens.carrito.CarritoScreen
+import com.tecsup.mibodega.ui.cliente.screens.confirmacion.ConfirmacionScreen
 import com.tecsup.mibodega.ui.cliente.screens.detalle.DetalleProductoScreen
+import com.tecsup.mibodega.ui.cliente.screens.entrega.DatosEntregaScreen
 import com.tecsup.mibodega.ui.cliente.screens.inicio.InicioScreen
 import com.tecsup.mibodega.ui.cliente.screens.registro.RegistroScreen
 
 /**
  * "Director de orquesta" de la app cliente:
- * - Tiene el NavHost con las rutas de cada pantalla.
- * - Tiene el estado del carrito (List<ItemCarrito>), que se reparte
- *   hacia abajo a Inicio, Detalle, Carrito y Entrega.
- * Ninguna Screen navega sola ni modifica el carrito directamente:
- * todas reciben funciones (lambdas) desde aquí (state hoisting).
+ * - Maneja la navegación completa entre todas las pantallas (1 a 7).
+ * - Mantiene el estado centralizado del carrito de compras.
  */
 private object Rutas {
     const val BIENVENIDA = "bienvenida"
@@ -33,6 +33,8 @@ private object Rutas {
     const val INICIO = "inicio"
     const val DETALLE = "detalle/{productoId}"
     const val CARRITO = "carrito"
+    const val ENTREGA = "entrega"
+    const val CONFIRMACION = "confirmacion"
 
     fun detalle(productoId: Int) = "detalle/$productoId"
 }
@@ -41,8 +43,10 @@ private object Rutas {
 fun ClienteApp() {
     val navController = rememberNavController()
 
-    // El carrito vive aquí arriba, no en ninguna Screen.
+    // Estado global del carrito y datos del último pedido
     var carrito by remember { mutableStateOf<List<ItemCarrito>>(emptyList()) }
+    var ultimoTotalPedido by remember { mutableDoubleStateOf(0.0) }
+    var ultimaDireccionPedido by remember { mutableStateOf("") }
 
     NavHost(
         navController = navController,
@@ -51,16 +55,15 @@ fun ClienteApp() {
         composable(Rutas.BIENVENIDA) {
             BienvenidaScreen(
                 onRegistrarse = { navController.navigate(Rutas.REGISTRO) },
-                onIniciarSesion = { /* TODO: pantalla de login, aún no está en el mockup */ },
-                onTerminos = { /* TODO: abrir términos y condiciones */ }
+                onIniciarSesion = { navController.navigate(Rutas.INICIO) },
+                onTerminos = { /* Abrir términos */ }
             )
         }
 
         composable(Rutas.REGISTRO) {
             RegistroScreen(
                 onVolver = { navController.popBackStack() },
-                onCrearCuenta = { nombre, telefono, direccion, referencia ->
-                    // TODO: guardar estos datos cuando exista el registro real
+                onCrearCuenta = { _, _, _, _ ->
                     navController.navigate(Rutas.INICIO) {
                         popUpTo(Rutas.BIENVENIDA) { inclusive = true }
                     }
@@ -86,7 +89,7 @@ fun ClienteApp() {
             arguments = listOf(navArgument("productoId") { type = NavType.IntType })
         ) { backStackEntry ->
             val productoId = backStackEntry.arguments?.getInt("productoId") ?: 0
-            val producto = listaProductosFake.first { it.id == productoId }
+            val producto = listaProductosFake.firstOrNull { it.id == productoId } ?: listaProductosFake.first()
 
             DetalleProductoScreen(
                 producto = producto,
@@ -112,23 +115,52 @@ fun ClienteApp() {
                         when {
                             it.producto.id != producto.id -> it
                             it.cantidad > 1 -> it.copy(cantidad = it.cantidad - 1)
-                            else -> null // si llega a 0, se elimina de la lista
+                            else -> null
                         }
                     }
                 },
                 onEliminar = { producto ->
                     carrito = carrito.filterNot { it.producto.id == producto.id }
                 },
-                onContinuarPedido = { /* TODO: navegar a DatosEntregaScreen */ }
+                onVaciarCarrito = { carrito = emptyList() },
+                onContinuarPedido = { navController.navigate(Rutas.ENTREGA) }
+            )
+        }
+
+        composable(Rutas.ENTREGA) {
+            DatosEntregaScreen(
+                onVolver = { navController.popBackStack() },
+                onConfirmarPedido = { _, _, direccion, referencia, _ ->
+                    val subtotal = carrito.sumOf { it.producto.precio * it.cantidad }
+                    ultimoTotalPedido = if (carrito.isEmpty()) 0.0 else subtotal + 4.00
+                    ultimaDireccionPedido = if (referencia.isNotEmpty()) "$direccion ($referencia)" else direccion
+
+                    // Vaciar carrito tras confirmar pedido
+                    carrito = emptyList()
+
+                    navController.navigate(Rutas.CONFIRMACION) {
+                        popUpTo(Rutas.INICIO) { inclusive = false }
+                    }
+                }
+            )
+        }
+
+        composable(Rutas.CONFIRMACION) {
+            ConfirmacionScreen(
+                numeroPedido = "#P1024",
+                total = if (ultimoTotalPedido > 0) ultimoTotalPedido else 25.90,
+                direccion = if (ultimaDireccionPedido.isNotEmpty()) ultimaDireccionPedido else "Av. Los Olivos 123 (Frente al parque)",
+                onVerEstado = { /* Acción para WhatsApp o soporte */ },
+                onVolverInicio = {
+                    navController.navigate(Rutas.INICIO) {
+                        popUpTo(Rutas.INICIO) { inclusive = true }
+                    }
+                }
             )
         }
     }
 }
 
-/**
- * Si el producto ya está en el carrito, le suma la cantidad;
- * si no, lo agrega como un ItemCarrito nuevo.
- */
 private fun agregarOSumarProducto(
     carrito: List<ItemCarrito>,
     producto: Producto,

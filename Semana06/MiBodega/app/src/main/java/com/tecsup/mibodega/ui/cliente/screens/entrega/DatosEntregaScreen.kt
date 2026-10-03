@@ -20,12 +20,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Payments
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,17 +50,18 @@ import com.tecsup.mibodega.ui.theme.BodegaTheme
 import com.tecsup.mibodega.ui.theme.VerdeBodega
 
 /**
- * Pantalla 6: Datos de entrega y método de pago con imágenes reales de Yape y Plin.
+ * Pantalla 6: Datos de entrega y método de pago (con validación de campos obligatorios).
  */
 @Composable
 fun DatosEntregaScreen(
-    onVolver: () -> Unit,
-    onConfirmarPedido: (nombre: String, telefono: String, direccion: String, referencia: String, metodoPago: String) -> Unit
+    onConfirmarPedido: (nombre: String, telefono: String, direccion: String, referencia: String, metodoPago: String) -> Unit,
+    onVolver: () -> Unit = {}
 ) {
     var nombre by remember { mutableStateOf("Juan Pérez") }
     var telefono by remember { mutableStateOf("987 654 321") }
     var direccion by remember { mutableStateOf("Av. Los Olivos 123") }
     var referencia by remember { mutableStateOf("Frente al parque") }
+    var mostrarError by remember { mutableStateOf(false) }
 
     val metodosPago = listOf("Efectivo al entregar", "Yape", "Plin")
     var metodoPagoSeleccionado by remember { mutableStateOf(metodosPago.first()) }
@@ -129,11 +132,28 @@ fun DatosEntregaScreen(
         BotonPrimario(
             texto = "Confirmar pedido",
             onClick = {
-                onConfirmarPedido(nombre, telefono, direccion, referencia, metodoPagoSeleccionado)
+                if (nombre.isBlank() || telefono.isBlank() || direccion.isBlank() || referencia.isBlank()) {
+                    mostrarError = true
+                } else {
+                    onConfirmarPedido(nombre, telefono, direccion, referencia, metodoPagoSeleccionado)
+                }
             }
         )
 
         Spacer(Modifier.height(24.dp))
+    }
+
+    if (mostrarError) {
+        AlertDialog(
+            onDismissRequest = { mostrarError = false },
+            title = { Text("Campos incompletos") },
+            text = { Text("Por favor completa todos los datos de entrega para confirmar tu pedido.") },
+            confirmButton = {
+                TextButton(onClick = { mostrarError = false }) {
+                    Text("Aceptar", color = VerdeBodega)
+                }
+            }
+        )
     }
 }
 
@@ -240,7 +260,6 @@ private fun EncabezadoEntrega(onVolver: () -> Unit) {
 private fun DatosEntregaPreview() {
     BodegaTheme {
         DatosEntregaScreen(
-            onVolver = {},
             onConfirmarPedido = { _, _, _, _, _ -> }
         )
     }

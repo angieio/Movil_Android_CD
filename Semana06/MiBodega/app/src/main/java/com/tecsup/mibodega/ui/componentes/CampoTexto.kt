@@ -12,13 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 /**
- * Input con label arriba (fuera del recuadro), como en los mockups
- * de Registro y Datos de entrega. Se usa en: Registro, Datos de entrega.
- *
- * @param teclado tipo de teclado, ej. KeyboardType.Phone para el teléfono
+ * Input con label arriba (fuera del recuadro), como en los mockups.
  */
 @Composable
 fun CampoTexto(
@@ -39,12 +38,12 @@ fun CampoTexto(
         OutlinedTextField(
             value = valor,
             onValueChange = onValorCambia,
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             placeholder = placeholder?.let { { Text(it) } },
             singleLine = true,
             shape = RoundedCornerShape(10.dp),
             keyboardOptions = KeyboardOptions(keyboardType = teclado),
+            visualTransformation = if (teclado == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,

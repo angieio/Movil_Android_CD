@@ -20,16 +20,18 @@ import com.tecsup.mibodega.ui.cliente.screens.confirmacion.ConfirmacionScreen
 import com.tecsup.mibodega.ui.cliente.screens.detalle.DetalleProductoScreen
 import com.tecsup.mibodega.ui.cliente.screens.entrega.DatosEntregaScreen
 import com.tecsup.mibodega.ui.cliente.screens.inicio.InicioScreen
+import com.tecsup.mibodega.ui.cliente.screens.login.LoginScreen
 import com.tecsup.mibodega.ui.cliente.screens.registro.RegistroScreen
 
 /**
  * "Director de orquesta" de la app cliente:
- * - Maneja la navegación completa entre todas las pantallas (1 a 7).
+ * - Maneja la navegación completa entre todas las pantallas.
  * - Mantiene el estado centralizado del carrito de compras.
  */
 private object Rutas {
     const val BIENVENIDA = "bienvenida"
     const val REGISTRO = "registro"
+    const val LOGIN = "login"
     const val INICIO = "inicio"
     const val DETALLE = "detalle/{productoId}"
     const val CARRITO = "carrito"
@@ -55,7 +57,7 @@ fun ClienteApp() {
         composable(Rutas.BIENVENIDA) {
             BienvenidaScreen(
                 onRegistrarse = { navController.navigate(Rutas.REGISTRO) },
-                onIniciarSesion = { navController.navigate(Rutas.INICIO) },
+                onIniciarSesion = { navController.navigate(Rutas.LOGIN) },
                 onTerminos = { /* Abrir términos */ }
             )
         }
@@ -64,6 +66,17 @@ fun ClienteApp() {
             RegistroScreen(
                 onVolver = { navController.popBackStack() },
                 onCrearCuenta = { _, _, _, _ ->
+                    navController.navigate(Rutas.INICIO) {
+                        popUpTo(Rutas.BIENVENIDA) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Rutas.LOGIN) {
+            LoginScreen(
+                onVolver = { navController.popBackStack() },
+                onIniciarSesion = { _, _ ->
                     navController.navigate(Rutas.INICIO) {
                         popUpTo(Rutas.BIENVENIDA) { inclusive = true }
                     }

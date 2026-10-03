@@ -1,5 +1,6 @@
 package com.tecsup.mibodega.ui.cliente.screens.detalle
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -65,7 +68,7 @@ fun DetalleProductoScreen(
             onToggleFavorito = { esFavorito = !esFavorito }
         )
 
-        ImagenProducto()
+        ImagenProducto(producto = producto)
 
         Column(
             modifier = Modifier
@@ -157,7 +160,7 @@ private fun EncabezadoDetalle(
 }
 
 @Composable
-private fun ImagenProducto() {
+private fun ImagenProducto(producto: Producto) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,12 +168,23 @@ private fun ImagenProducto() {
             .background(GrisClaro),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Default.ShoppingBasket,
-            contentDescription = null,
-            tint = VerdeBodega,
-            modifier = Modifier.size(80.dp)
-        )
+        if (producto.imagenRes != null) {
+            Image(
+                painter = painterResource(id = producto.imagenRes),
+                contentDescription = producto.nombre,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentScale = ContentScale.Fit
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Default.ShoppingBasket,
+                contentDescription = null,
+                tint = VerdeBodega,
+                modifier = Modifier.size(80.dp)
+            )
+        }
     }
 }
 

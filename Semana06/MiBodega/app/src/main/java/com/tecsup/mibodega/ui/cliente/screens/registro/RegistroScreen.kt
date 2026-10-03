@@ -139,6 +139,7 @@ private fun EncabezadoRegistro(onVolver: () -> Unit) {
         ) {
             Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
         }
+
         Text(
             text = "Crear cuenta",
             style = MaterialTheme.typography.titleLarge,

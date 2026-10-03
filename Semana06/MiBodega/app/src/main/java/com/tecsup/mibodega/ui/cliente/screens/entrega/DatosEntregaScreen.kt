@@ -1,6 +1,8 @@
 package com.tecsup.mibodega.ui.cliente.screens.entrega
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,10 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -26,17 +32,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.tecsup.mibodega.ui.componentes.BotonPrimario
 import com.tecsup.mibodega.ui.componentes.CampoTexto
 import com.tecsup.mibodega.ui.theme.BodegaTheme
 import com.tecsup.mibodega.ui.theme.VerdeBodega
 
 /**
- * Pantalla 6: Datos de entrega y método de pago.
+ * Pantalla 6: Datos de entrega y método de pago (con íconos/badges visuales para Efectivo, Yape y Plin).
  */
 @Composable
 fun DatosEntregaScreen(
@@ -105,24 +113,11 @@ fun DatosEntregaScreen(
         Spacer(Modifier.height(8.dp))
 
         metodosPago.forEach { metodo ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { metodoPagoSeleccionado = metodo }
-                    .padding(vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = metodoPagoSeleccionado == metodo,
-                    onClick = { metodoPagoSeleccionado = metodo },
-                    colors = RadioButtonDefaults.colors(selectedColor = VerdeBodega)
-                )
-                Text(
-                    text = metodo,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
+            FilaMetodoPago(
+                texto = metodo,
+                seleccionado = metodoPagoSeleccionado == metodo,
+                onClick = { metodoPagoSeleccionado = metodo }
+            )
         }
 
         Spacer(Modifier.height(28.dp))
@@ -135,6 +130,85 @@ fun DatosEntregaScreen(
         )
 
         Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun FilaMetodoPago(
+    texto: String,
+    seleccionado: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = seleccionado,
+            onClick = onClick,
+            colors = RadioButtonDefaults.colors(selectedColor = VerdeBodega)
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        when (texto) {
+            "Efectivo al entregar" -> {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(Color(0xFFE8F5E9), RoundedCornerShape(8.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Payments,
+                        contentDescription = null,
+                        tint = VerdeBodega,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+            "Yape" -> {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(Color(0xFF7B1FA2), RoundedCornerShape(8.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "yape",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            "Plin" -> {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(Color(0xFF00BCD4), RoundedCornerShape(8.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "plin",
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.width(10.dp))
+
+        Text(
+            text = texto,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium
+        )
     }
 }
 

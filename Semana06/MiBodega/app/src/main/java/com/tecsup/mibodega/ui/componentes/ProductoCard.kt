@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.dp
 import com.tecsup.mibodega.ui.cliente.modelo.Producto
 import com.tecsup.mibodega.ui.theme.GrisClaro
 import com.tecsup.mibodega.ui.theme.VerdeBodega
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 
 /**
  * Tarjeta de producto usada en el grid de Inicio.
@@ -61,11 +64,13 @@ fun ProductoCard(
                     .background(GrisClaro, RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.ShoppingBasket,
+                Image(
+                    painter = painterResource(id = producto.imagen),
                     contentDescription = producto.nombre,
-                    tint = VerdeBodega,
-                    modifier = Modifier.size(36.dp)
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1.3f)
                 )
             }
 

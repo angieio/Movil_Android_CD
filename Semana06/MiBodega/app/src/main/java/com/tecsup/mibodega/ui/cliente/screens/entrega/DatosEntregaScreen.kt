@@ -1,5 +1,6 @@
 package com.tecsup.mibodega.ui.cliente.screens.entrega
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -32,19 +33,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.tecsup.mibodega.R
 import com.tecsup.mibodega.ui.componentes.BotonPrimario
 import com.tecsup.mibodega.ui.componentes.CampoTexto
 import com.tecsup.mibodega.ui.theme.BodegaTheme
 import com.tecsup.mibodega.ui.theme.VerdeBodega
 
 /**
- * Pantalla 6: Datos de entrega y método de pago (con íconos/badges visuales para Efectivo, Yape y Plin).
+ * Pantalla 6: Datos de entrega y método de pago con imágenes reales de Yape y Plin.
  */
 @Composable
 fun DatosEntregaScreen(
@@ -174,14 +178,14 @@ private fun FilaMetodoPago(
                 Box(
                     modifier = Modifier
                         .size(32.dp)
-                        .background(Color(0xFF7B1FA2), RoundedCornerShape(8.dp)),
+                        .clip(RoundedCornerShape(8.dp)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "yape",
-                        color = Color.White,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
+                    Image(
+                        painter = painterResource(id = R.drawable.yape),
+                        contentDescription = "Yape",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
@@ -189,14 +193,14 @@ private fun FilaMetodoPago(
                 Box(
                     modifier = Modifier
                         .size(32.dp)
-                        .background(Color(0xFF00BCD4), RoundedCornerShape(8.dp)),
+                        .clip(RoundedCornerShape(8.dp)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "plin",
-                        color = Color.White,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
+                    Image(
+                        painter = painterResource(id = R.drawable.plin),
+                        contentDescription = "Plin",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }

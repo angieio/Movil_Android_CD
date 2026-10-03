@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material3.Icon
@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,10 +43,7 @@ import com.tecsup.mibodega.ui.theme.RojoPrecio
 import com.tecsup.mibodega.ui.theme.VerdeBodega
 
 /**
- * Pantalla 4: Detalle del producto (mockup "Cliente").
- * Guarda su propia cantidad seleccionada (remember) mientras el usuario
- * decide cuánto quiere; solo al tocar "Agregar al carrito" le avisa
- * a ClienteApp cuánto agregar.
+ * Pantalla 4: Detalle del producto.
  */
 @Composable
 fun DetalleProductoScreen(
@@ -54,13 +52,18 @@ fun DetalleProductoScreen(
     onAgregarAlCarrito: (Producto, Int) -> Unit
 ) {
     var cantidad by remember { mutableStateOf(1) }
+    var esFavorito by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .safeDrawingPadding()
     ) {
-        EncabezadoDetalle(onVolver = onVolver)
+        EncabezadoDetalle(
+            onVolver = onVolver,
+            esFavorito = esFavorito,
+            onToggleFavorito = { esFavorito = !esFavorito }
+        )
 
         ImagenProducto()
 
@@ -73,14 +76,24 @@ fun DetalleProductoScreen(
 
             Text(
                 text = producto.nombre,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
             )
 
-            Spacer(Modifier.height(4.dp))
+            if (producto.presentacion.isNotEmpty()) {
+                Text(
+                    text = producto.presentacion,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Spacer(Modifier.height(8.dp))
 
             Text(
                 text = "S/ %.2f".format(producto.precio),
-                style = MaterialTheme.typography.displayMedium.copy(fontSize = 26.sp),
+                style = MaterialTheme.typography.displayMedium.copy(fontSize = 28.sp),
+                fontWeight = FontWeight.Bold,
                 color = RojoPrecio
             )
 
@@ -94,11 +107,16 @@ fun DetalleProductoScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            SelectorCantidad(
-                cantidad = cantidad,
-                onIncrementar = { cantidad++ },
-                onDecrementar = { if (cantidad > 1) cantidad-- }
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                SelectorCantidad(
+                    cantidad = cantidad,
+                    onIncrementar = { cantidad++ },
+                    onDecrementar = { if (cantidad > 1) cantidad-- }
+                )
+            }
 
             Spacer(Modifier.weight(1f))
 
@@ -113,7 +131,11 @@ fun DetalleProductoScreen(
 }
 
 @Composable
-private fun EncabezadoDetalle(onVolver: () -> Unit) {
+private fun EncabezadoDetalle(
+    onVolver: () -> Unit,
+    esFavorito: Boolean,
+    onToggleFavorito: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -124,16 +146,18 @@ private fun EncabezadoDetalle(onVolver: () -> Unit) {
         IconButton(onClick = onVolver) {
             Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
         }
-        IconButton(onClick = { /* TODO: guardar como favorito */ }) {
-            Icon(Icons.Default.FavoriteBorder, contentDescription = "Favorito")
+        IconButton(onClick = onToggleFavorito) {
+            Icon(
+                imageVector = if (esFavorito) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = "Favorito",
+                tint = if (esFavorito) RojoPrecio else MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 }
 
 @Composable
 private fun ImagenProducto() {
-    // Placeholder de imagen: reemplázalo por Image(painterResource(...))
-    // cuando tengan la foto real de cada producto.
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -161,4 +185,3 @@ private fun DetalleProductoPreview() {
         )
     }
 }
-
